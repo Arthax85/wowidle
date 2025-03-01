@@ -54,13 +54,26 @@ const enemies = [
 const startScreen = document.getElementById('start-screen');
 const nameInput = document.getElementById('character-name-input');
 const startBtn = document.getElementById('start-game-btn');
-const playerNameDisplay = document.getElementById('player-name-display');
+const playerNameDisplay = document.getElementById('player-name');
+const resetBtn = document.getElementById('reset-btn');
 const container = document.getElementById('container');
 const bronzeDisplay = document.getElementById('bronze');
 const silverDisplay = document.getElementById('silver');
 const goldDisplay = document.getElementById('gold');
 const enemyList = document.getElementById('enemy-list');
 const questList = document.getElementById('quest-list');
+
+// Función para reiniciar el juego
+function resetGame() {
+    // Borrar los datos de localStorage
+    localStorage.removeItem('gameData');
+    
+    // Recargar la página para empezar de cero
+    window.location.reload();
+}
+
+// Evento para el botón de reinicio
+resetBtn.addEventListener('click', resetGame);
 
 // Cargar datos del juego desde localStorage
 function loadGameData() {
@@ -73,7 +86,7 @@ function loadGameData() {
         updateMoneyDisplay();
         renderEnemies();
         renderQuests();
-        playerNameDisplay.textContent = `Personaje: ${playerName}`;
+        playerNameDisplay.textContent = playerName; // Mostrar el nombre del jugador
         container.style.display = 'flex';
         startScreen.style.display = 'none';
     }
@@ -96,7 +109,7 @@ startBtn.addEventListener('click', () => {
         playerName = name;
         startScreen.style.display = 'none';
         container.style.display = 'flex';
-        playerNameDisplay.textContent = `Personaje: ${playerName}`;
+        playerNameDisplay.textContent = playerName;
         saveGameData(); // Guardar datos al iniciar el juego
     } else {
         alert("El nombre debe tener entre 3 y 20 caracteres.");
