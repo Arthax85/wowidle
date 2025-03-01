@@ -97,7 +97,7 @@ startBtn.addEventListener('click', () => {
         startScreen.style.display = 'none';
         container.style.display = 'flex';
         playerNameDisplay.textContent = `Personaje: ${playerName}`;
-        saveGameData();
+        saveGameData(); // Guardar datos al iniciar el juego
     } else {
         alert("El nombre debe tener entre 3 y 20 caracteres.");
     }
@@ -117,7 +117,7 @@ function updateMoneyDisplay() {
     bronzeDisplay.textContent = money.bronze;
     silverDisplay.textContent = money.silver;
     goldDisplay.textContent = money.gold;
-    saveGameData();
+    saveGameData(); // Guardar datos después de actualizar el dinero
 }
 
 // Sistema de combate
