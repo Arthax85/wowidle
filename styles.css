@@ -359,51 +359,29 @@ body {
 /* Contenedor principal del juego */
 #container {
     display: flex;
-    width: 800px;
-    display: none; /* Oculto inicialmente */
     flex-direction: column;
     align-items: center;
-    margin-top: 20px; /* Margen reducido */
+    width: 800px;
+    margin-top: 20px;
+    display: none; /* Oculto inicialmente */
 }
 
-/* Textos centrados debajo de la barra de dinero */
-#game-title {
-    text-align: center;
-    margin-bottom: 20px;
+/* Contenedor para los paneles de enemigos y misiones */
+#panels-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
 }
 
-#game-title h1 {
-    color: #FFD700;
-    text-shadow: 0 0 10px #FFD700;
-    margin-bottom: 10px;
-}
-
-.zone-info {
-    text-align: center;
-}
-
-.zone-text {
-    color: #A0D8A0;
-    font-size: 18px;
-    text-shadow: 0 0 5px rgba(160,216,160,0.5);
-}
-
-.zone-subtext {
-    color: #C0C0C0;
-    font-size: 14px;
-    font-style: italic;
-    margin-top: 3px;
-}
-
-/* Panel izquierdo */
+/* Panel izquierdo para los enemigos */
 #left-panel {
-    width: 400px;
-    margin-right: 20px;
+    width: 48%; /* Ajusta el ancho según sea necesario */
 }
 
-/* Panel derecho */
+/* Panel derecho para las misiones */
 #right-panel {
-    width: 400px;
+    width: 48%; /* Ajusta el ancho según sea necesario */
 }
 
 /* Enemigos */
@@ -543,4 +521,72 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/* Estilos para el título del juego */
+#game-title h1 {
+    font-size: 48px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 165, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+    animation: glow 2s infinite alternate;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el texto de la zona */
+.zone-text {
+    font-size: 24px;
+    color: #A0D8A0;
+    text-shadow: 0 0 10px rgba(160, 216, 160, 0.8), 0 0 20px rgba(160, 216, 160, 0.6);
+    animation: glow-green 2s infinite alternate;
+}
+
+/* Estilos para el subtítulo de la zona */
+.zone-subtext {
+    font-size: 18px;
+    color: #C0C0C0;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(192, 192, 192, 0.8), 0 0 20px rgba(192, 192, 192, 0.6);
+    animation: glow-silver 2s infinite alternate;
+    margin-top: 5px;
+}
+
+/* Animación para el brillo dorado */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 165, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 165, 0, 1), 0 0 60px rgba(255, 215, 0, 0.8);
+    }
+}
+
+/* Animación para el brillo verde */
+@keyframes glow-green {
+    0% {
+        text-shadow: 0 0 10px rgba(160, 216, 160, 0.8), 0 0 20px rgba(160, 216, 160, 0.6);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(160, 216, 160, 1), 0 0 40px rgba(160, 216, 160, 0.8);
+    }
+}
+
+/* Animación para el brillo plateado */
+@keyframes glow-silver {
+    0% {
+        text-shadow: 0 0 10px rgba(192, 192, 192, 0.8), 0 0 20px rgba(192, 192, 192, 0.6);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(192, 192, 192, 1), 0 0 40px rgba(192, 192, 192, 0.8);
+    }
+}
+
+/* Ajustes para centrar el texto debajo de la barra superior */
+#game-title {
+    text-align: center;
+    margin-top: 20px; /* Ajusta la distancia desde la barra superior */
+    margin-bottom: 20px;
 }
