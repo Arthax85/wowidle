@@ -1,4 +1,4 @@
-​<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>World of Warcraft Idle</title>
@@ -12,8 +12,26 @@
         <button id="start-game-btn">Comenzar Aventura</button>
     </div>
 
-    <!-- Nombre del jugador -->
-    <div id="player-name-display"></div>
+    <!-- Botón de información del personaje, barra de experiencia y botón de reinicio -->
+    <div id="player-info-display">
+        <button id="info-btn">Información del Personaje</button>
+        <div id="experience-bar">
+            <div id="experience-progress"></div>
+            <span id="experience-text">0 / 100</span>
+        </div>
+        <button id="reset-btn">Reiniciar Juego</button>
+    </div>
+
+    <!-- Ventana de información del personaje -->
+    <div id="info-window">
+        <h2>Información del Personaje</h2>
+        <div class="info-content">
+            <p><strong>Nombre:</strong> <span id="info-name"></span></p>
+            <p><strong>Raza:</strong> Humano</p>
+            <p><strong>Clase:</strong> Guerrero</p>
+            <p><strong>Nivel:</strong> <span id="info-level"></span></p>
+        </div>
+    </div>
 
     <!-- Barra de dinero -->
     <div id="money-bar">
@@ -29,28 +47,73 @@
             <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" class="coin-icon bronze-coin">
             <span id="bronze">0</span>
         </div>
+        <!-- Botón para mostrar el mapa -->
+        <button id="map-btn">Mostrar Mapa</button>
+    </div>
+
+    <!-- Contenedor del mapa a pantalla completa -->
+    <div id="map-overlay">
+        <div id="map-container">
+            <img src="https://raw.githubusercontent.com/Arthax85/wowidle/refs/heads/main/mapa-bosque-elwynn.png" alt="Mapa del Bosque de Elwynn">
+            <button id="close-map-btn">Cerrar Mapa</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de combate -->
+    <div id="combat-overlay">
+        <div id="combat-container">
+            <h2>¡Combate!</h2>
+            <div id="combat-enemy">
+                <img id="enemy-combat-image" src="" alt="Enemigo">
+                <div id="enemy-combat-health">
+                    <div id="enemy-combat-health-bar"></div>
+                </div>
+            </div>
+            <div id="combat-player">
+                <img id="player-combat-image" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg" alt="Personaje">
+                <div id="player-combat-health">
+                    <div id="player-combat-health-bar"></div>
+                </div>
+            </div>
+            <div id="combat-actions">
+                <button id="attack-btn">Atacar</button>
+                <button id="flee-btn">Huir</button>
+            </div>
+            <!-- Nuevo elemento para mostrar las recompensas -->
+            <div id="combat-rewards">
+                <p id="rewards-text"></p>
+            </div>
+            <button id="close-combat-btn">Cerrar Combate</button>
+        </div>
     </div>
 
     <!-- Contenido del juego -->
     <div id="container">
-        <div id="left-panel">
+        <!-- Textos centrados debajo de la barra de dinero -->
+        <div id="game-title">
             <h1>World of Warcraft Idle</h1>
             <div class="zone-info">
                 <div class="zone-text">Bosque de Elwynn</div>
                 <div class="zone-subtext">Lugar: Villanorte</div>
             </div>
-            <div id="background" class="elwynn-forest"></div>
         </div>
 
-        <div id="right-panel">
-            <div id="enemies">
-                <h2>Enemigos de la zona</h2>
-                <ul id="enemy-list"></ul>
+        <!-- Contenedor para los paneles de enemigos y misiones -->
+        <div id="panels-container">
+            <!-- Panel izquierdo para los enemigos -->
+            <div id="left-panel">
+                <div id="enemies">
+                    <h2>Enemigos de la zona</h2>
+                    <ul id="enemy-list"></ul>
+                </div>
             </div>
 
-            <div id="quests">
-                <h2>Misiones</h2>
-                <ul id="quest-list"></ul>
+            <!-- Panel derecho para las misiones -->
+            <div id="right-panel">
+                <div id="quests">
+                    <h2>Misiones</h2>
+                    <ul id="quest-list"></ul>
+                </div>
             </div>
         </div>
     </div>
