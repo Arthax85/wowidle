@@ -9,6 +9,41 @@ let money = {
     gold: 0
 };
 
+// Variables globales para raza y clase
+let playerRace = "";
+let playerClass = "";
+
+// Variables globales para los stats del personaje
+let playerStats = {
+    strength: 0,
+    agility: 0,
+    stamina: 0,
+    intellect: 0,
+    spirit: 0
+};
+
+// Mapeo de stats iniciales por clase
+const classStats = {
+    Sacerdote: { strength: 0, agility: 0, stamina: 0, intellect: 2, spirit: 3 },
+    Pícaro: { strength: 1, agility: 3, stamina: 1, intellect: 0, spirit: 0 },
+    Guerrero: { strength: 3, agility: 0, stamina: 2, intellect: 0, spirit: 0 },
+    Mago: { strength: 0, agility: 0, stamina: 0, intellect: 3, spirit: 2 },
+    Druida: { strength: 1, agility: 0, stamina: 0, intellect: 2, spirit: 2 },
+    Cazador: { strength: 0, agility: 3, stamina: 1, intellect: 0, spirit: 1 },
+    Brujo: { strength: 0, agility: 0, stamina: 1, intellect: 2, spirit: 2 },
+    Chamán: { strength: 1, agility: 0, stamina: 1, intellect: 1, spirit: 2 },
+    Paladín: { strength: 2, agility: 0, stamina: 2, intellect: 0, spirit: 1 }
+};
+
+// Mapeo de razas y clases disponibles
+const raceClassMapping = {
+    humano: ["Guerrero", "Cazador", "Mago", "Pícaro", "Sacerdote", "Brujo", "Paladín"],
+    elfo_noche: ["Guerrero", "Cazador", "Mago", "Pícaro", "Sacerdote", "Brujo", "Druida"],
+    enano: ["Guerrero", "Cazador", "Mago", "Pícaro", "Sacerdote", "Brujo", "Paladín", "Chamán"],
+    gnomo: ["Guerrero", "Cazador", "Mago", "Pícaro", "Sacerdote", "Brujo"],
+    draenei: ["Guerrero", "Cazador", "Mago", "Pícaro", "Sacerdote", "Brujo", "Paladín", "Chamán"]
+};
+
 let quests = [
     { 
         id: 1, 
@@ -76,6 +111,12 @@ const mapBtn = document.getElementById('map-btn');
 const mapOverlay = document.getElementById('map-overlay');
 const closeMapBtn = document.getElementById('close-map-btn');
 
+// Elementos del DOM para la selección de raza y clase
+const raceClassScreen = document.getElementById('race-class-screen');
+const raceSelect = document.getElementById('race-select');
+const classSelect = document.getElementById('class-select');
+const confirmRaceClassBtn = document.getElementById('confirm-race-class-btn');
+
 // Variables globales para el combate
 let currentEnemy = null;
 let playerHealth = 100;
@@ -126,15 +167,29 @@ function loadGameData() {
         playerName = data.playerName;
         playerLevel = data.playerLevel || 1;
         playerExperience = data.playerExperience || 0;
-        experienceToNextLevel = data.experienceToNextLevel || 50; // Cargar experiencia necesaria
+        experienceToNextLevel = data.experienceToNextLevel || 50;
         money = data.money;
         quests = data.quests;
+        playerRace = data.playerRace || "humano";
+        playerClass = data.playerClass || "Guerrero";
+        playerStats = data.playerStats || { strength: 0, agility: 0, stamina: 0, intellect: 0, spirit: 0 };
+
         updateMoneyDisplay();
         updateExperienceDisplay();
         renderEnemies();
         renderQuests();
-        infoName.textContent = playerName; // Mostrar el nombre del personaje en la ventana de información
-        infoLevel.textContent = playerLevel; // Mostrar el nivel del personaje en la ventana de información
+
+        // Actualizar la información del personaje
+        document.getElementById('info-name').textContent = playerName;
+        document.getElementById('info-race').textContent = playerRace;
+        document.getElementById('info-class').textContent = playerClass;
+        document.getElementById('info-level').textContent = playerLevel;
+        document.getElementById('info-strength').textContent = playerStats.strength;
+        document.getElementById('info-agility').textContent = playerStats.agility;
+        document.getElementById('info-stamina').textContent = playerStats.stamina;
+        document.getElementById('info-intellect').textContent = playerStats.intellect;
+        document.getElementById('info-spirit').textContent = playerStats.spirit;
+
         container.style.display = 'flex';
         startScreen.style.display = 'none';
     }
@@ -146,27 +201,83 @@ function saveGameData() {
         playerName,
         playerLevel,
         playerExperience,
-        experienceToNextLevel, // Guardar la experiencia necesaria para el siguiente nivel
+        experienceToNextLevel,
         money,
-        quests
+        quests,
+        playerRace,
+        playerClass,
+        playerStats // Guardar los stats del personaje
     };
     localStorage.setItem('gameData', JSON.stringify(gameData));
 }
 
-// Evento para iniciar el juego
+// Evento para cambiar las clases disponibles según la raza seleccionada
+raceSelect.addEventListener('change', () => {
+    const selectedRace = raceSelect.value;
+    const availableClasses = raceClassMapping[selectedRace];
+    
+    // Limpiar las opciones de clase anteriores
+    classSelect.innerHTML = '';
+    
+    // Llenar las nuevas opciones de clase
+    availableClasses.forEach(cls => {
+        const option = document.createElement('option');
+        option.value = cls;
+        option.textContent = cls;
+        classSelect.appendChild(option);
+    });
+});
+
+// Evento para confirmar la selección de raza y clase
+confirmRaceClassBtn.addEventListener('click', () => {
+    playerRace = raceSelect.value;
+    playerClass = classSelect.value;
+
+    // Asignar stats iniciales según la clase seleccionada
+    playerStats = { ...classStats[playerClass] };
+
+    // Actualizar la información del personaje
+    document.getElementById('info-name').textContent = playerName;
+    document.getElementById('info-race').textContent = playerRace;
+    document.getElementById('info-class').textContent = playerClass;
+    document.getElementById('info-level').textContent = playerLevel;
+    document.getElementById('info-strength').textContent = playerStats.strength;
+    document.getElementById('info-agility').textContent = playerStats.agility;
+    document.getElementById('info-stamina').textContent = playerStats.stamina;
+    document.getElementById('info-intellect').textContent = playerStats.intellect;
+    document.getElementById('info-spirit').textContent = playerStats.spirit;
+
+    // Ocultar la pantalla de selección de raza y clase
+    raceClassScreen.style.display = 'none';
+
+    // Mostrar el contenido principal del juego
+    container.style.display = 'flex';
+
+    // Renderizar enemigos y misiones
+    renderEnemies();
+    renderQuests();
+
+    // Guardar los datos del juego
+    saveGameData();
+});
+
+// Modificar el evento de inicio del juego para mostrar la pantalla de selección de raza y clase
 startBtn.addEventListener('click', () => {
     const name = nameInput.value.trim();
     if (name.length >= 3 && name.length <= 20) {
         playerName = name;
         startScreen.style.display = 'none';
-        container.style.display = 'flex';
-        infoName.textContent = playerName; // Actualizar el nombre en la ventana de información
-        infoLevel.textContent = playerLevel; // Actualizar el nivel en la ventana de información
-        saveGameData(); // Guardar datos al iniciar el juego
-
-        // Renderizar enemigos y misiones al iniciar el juego
-        renderEnemies();
-        renderQuests();
+        raceClassScreen.style.display = 'flex';
+        
+        // Llenar las clases iniciales basadas en la raza predeterminada (Humano)
+        const initialClasses = raceClassMapping['humano'];
+        classSelect.innerHTML = '';
+        initialClasses.forEach(cls => {
+            const option = document.createElement('option');
+            option.value = cls;
+            option.textContent = cls;
+            classSelect.appendChild(option);
+        });
     } else {
         alert("El nombre debe tener entre 3 y 20 caracteres.");
     }
@@ -320,8 +431,8 @@ function startCombat(enemy) {
     }
 
     currentEnemy = enemy;
-    enemyHealth = enemy.maxHealth;
-    playerHealth = 100; // Salud inicial del jugador
+    enemyHealth = enemy.maxHealth; // Restablecer la vida del enemigo al máximo
+    // playerHealth = 100; // <-- Eliminar esta línea para evitar que la vida del jugador se regenere
 
     // Mostrar la imagen y salud del enemigo
     enemyCombatImage.src = enemy.icon;
@@ -338,20 +449,41 @@ function updateHealthBars() {
 
     enemyCombatHealthBar.style.width = `${enemyHealthPercentage}%`;
     playerCombatHealthBar.style.width = `${playerHealthPercentage}%`;
+
+    // Actualizar el texto de la vida del enemigo y del jugador
+    document.getElementById('enemy-health-text').textContent = `${enemyHealth} / ${currentEnemy.maxHealth}`;
+    document.getElementById('player-health-text').textContent = `${playerHealth} / 100`;
+
+    // Actualizar la barra de vida del personaje en la interfaz de usuario
+    const healthProgress = document.getElementById('health-progress');
+    healthProgress.style.width = `${playerHealthPercentage}%`;
+    document.getElementById('health-text').textContent = `${playerHealth} / 100`;
+}
+
+// Función para calcular el daño basado en las estadísticas de la clase
+function calculateDamage() {
+    if (playerClass === "Guerrero" || playerClass === "Pícaro" || playerClass === "Cazador" || playerClass === "Paladín") {
+        // Clases físicas: daño basado en fuerza y agilidad
+        return Math.floor(playerStats.strength * 1.5 + playerStats.agility * 0.5);
+    } else if (playerClass === "Mago" || playerClass === "Sacerdote" || playerClass === "Brujo" || playerClass === "Druida" || playerClass === "Chamán") {
+        // Clases mágicas: daño basado en intelecto y espíritu
+        return Math.floor(playerStats.intellect * 1.5 + playerStats.spirit * 0.5);
+    }
+    return 10; // Daño base por defecto
 }
 
 // Evento para atacar al enemigo
 attackBtn.addEventListener('click', () => {
     if (currentEnemy && currentEnemy.currentHealth > 0) { // Solo atacar si el enemigo está vivo
-        // Daño al enemigo
-        const damage = Math.floor(Math.random() * 10) + 5; // Daño aleatorio entre 5 y 15
+        // Daño al enemigo basado en las estadísticas de la clase
+        const damage = calculateDamage();
         enemyHealth = Math.max(enemyHealth - damage, 0);
 
         // Daño al jugador (contraataque del enemigo)
         const enemyDamage = Math.floor(Math.random() * 8) + 3; // Daño aleatorio entre 3 y 10
         playerHealth = Math.max(playerHealth - enemyDamage, 0);
 
-        // Actualizar las barras de salud
+        // Actualizar las barras de salud y el texto de la vida
         updateHealthBars();
 
         // Verificar si el enemigo o el jugador han sido derrotados
@@ -492,4 +624,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cargar datos guardados al iniciar la página
     loadGameData();
+
+    // Si hay datos guardados, llenar las clases según la raza seleccionada
+    if (playerRace) {
+        const availableClasses = raceClassMapping[playerRace];
+        classSelect.innerHTML = '';
+        availableClasses.forEach(cls => {
+            const option = document.createElement('option');
+            option.value = cls;
+            option.textContent = cls;
+            classSelect.appendChild(option);
+        });
+        classSelect.value = playerClass; // Seleccionar la clase guardada
+    }
 });

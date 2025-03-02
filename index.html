@@ -6,32 +6,62 @@
 </head>
 <body>
     <!-- Pantalla de inicio -->
-    <div id="start-screen">
-        <h2>¡Bienvenido a World of Warcraft Idle!</h2>
-        <input type="text" id="character-name-input" placeholder="Escribe el nombre de tu personaje" maxlength="20">
-        <button id="start-game-btn">Comenzar Aventura</button>
-    </div>
+<div id="start-screen">
+    <h2>¡Bienvenido a World of Warcraft Idle!</h2>
+    <input type="text" id="character-name-input" placeholder="Escribe el nombre de tu personaje" maxlength="20">
+    <button id="start-game-btn">Comenzar Aventura</button>
+</div>
 
-    <!-- Botón de información del personaje, barra de experiencia y botón de reinicio -->
-    <div id="player-info-display">
-        <button id="info-btn">Información del Personaje</button>
-        <div id="experience-bar">
-            <div id="experience-progress"></div>
-            <span id="experience-text">0 / 100</span>
-        </div>
-        <button id="reset-btn">Reiniciar Juego</button>
+<!-- Pantalla de selección de raza y clase -->
+<div id="race-class-screen" style="display: none;">
+    <h2>Selecciona tu raza y clase</h2>
+    <div id="race-selection">
+        <h3>Raza:</h3>
+        <select id="race-select">
+            <option value="humano">Humano</option>
+            <option value="elfo_noche">Elfo de la Noche</option>
+            <option value="enano">Enano</option>
+            <option value="gnomo">Gnomo</option>
+            <option value="draenei">Draenei</option>
+        </select>
     </div>
+    <div id="class-selection">
+        <h3>Clase:</h3>
+        <select id="class-select">
+            <!-- Las clases se llenarán dinámicamente según la raza seleccionada -->
+        </select>
+    </div>
+    <button id="confirm-race-class-btn">Confirmar</button>
+</div>
 
+<!-- Botón de información del personaje, barra de experiencia y botón de reinicio -->
+<div id="player-info-display">
+    <button id="info-btn">Información del Personaje</button>
+    <div id="health-bar">
+        <div id="health-progress"></div>
+        <span id="health-text">100 / 100</span>
+    </div>
+    <div id="experience-bar">
+        <div id="experience-progress"></div>
+        <span id="experience-text">0 / 100</span>
+    </div>
+    <button id="reset-btn">Reiniciar Juego</button>
+</div>
     <!-- Ventana de información del personaje -->
-    <div id="info-window">
-        <h2>Información del Personaje</h2>
-        <div class="info-content">
-            <p><strong>Nombre:</strong> <span id="info-name"></span></p>
-            <p><strong>Raza:</strong> Humano</p>
-            <p><strong>Clase:</strong> Guerrero</p>
-            <p><strong>Nivel:</strong> <span id="info-level"></span></p>
-        </div>
+<div id="info-window">
+    <h2>Información del Personaje</h2>
+    <div class="info-content">
+        <p><strong>Nombre:</strong> <span id="info-name"></span></p>
+        <p><strong>Raza:</strong> <span id="info-race"></span></p>
+        <p><strong>Clase:</strong> <span id="info-class"></span></p>
+        <p><strong>Nivel:</strong> <span id="info-level"></span></p>
+        <p><strong>Fuerza:</strong> <span id="info-strength"></span></p>
+        <p><strong>Agilidad:</strong> <span id="info-agility"></span></p>
+        <p><strong>Aguante:</strong> <span id="info-stamina"></span></p>
+        <p><strong>Intelecto:</strong> <span id="info-intellect"></span></p>
+        <p><strong>Espíritu:</strong> <span id="info-spirit"></span></p>
     </div>
+</div>
 
     <!-- Barra de dinero -->
     <div id="money-bar">
@@ -60,32 +90,34 @@
     </div>
 
     <!-- Pantalla de combate -->
-    <div id="combat-overlay">
-        <div id="combat-container">
-            <h2>¡Combate!</h2>
-            <div id="combat-enemy">
-                <img id="enemy-combat-image" src="" alt="Enemigo">
-                <div id="enemy-combat-health">
-                    <div id="enemy-combat-health-bar"></div>
-                </div>
+<div id="combat-overlay">
+    <div id="combat-container">
+        <h2>¡Combate!</h2>
+        <div id="combat-enemy">
+            <img id="enemy-combat-image" src="" alt="Enemigo">
+            <div id="enemy-combat-health">
+                <div id="enemy-combat-health-bar"></div>
             </div>
-            <div id="combat-player">
-                <img id="player-combat-image" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg" alt="Personaje">
-                <div id="player-combat-health">
-                    <div id="player-combat-health-bar"></div>
-                </div>
-            </div>
-            <div id="combat-actions">
-                <button id="attack-btn">Atacar</button>
-                <button id="flee-btn">Huir</button>
-            </div>
-            <!-- Nuevo elemento para mostrar las recompensas -->
-            <div id="combat-rewards">
-                <p id="rewards-text"></p>
-            </div>
-            <button id="close-combat-btn">Cerrar Combate</button>
+            <span id="enemy-health-text">100 / 100</span> <!-- Texto de vida del enemigo -->
         </div>
+        <div id="combat-player">
+            <img id="player-combat-image" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg" alt="Personaje">
+            <div id="player-combat-health">
+                <div id="player-combat-health-bar"></div>
+            </div>
+            <span id="player-health-text">100 / 100</span> <!-- Texto de vida del jugador -->
+        </div>
+        <div id="combat-actions">
+            <button id="attack-btn">Atacar</button>
+            <button id="flee-btn">Huir</button>
+        </div>
+        <!-- Nuevo elemento para mostrar las recompensas -->
+        <div id="combat-rewards">
+            <p id="rewards-text"></p>
+        </div>
+        <button id="close-combat-btn">Cerrar Combate</button>
     </div>
+</div>
 
     <!-- Contenido del juego -->
     <div id="container">
