@@ -26,10 +26,16 @@ body {
     z-index: 2000;
 }
 
+#start-screen h4 {
+    color: #FFD700;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 #start-screen h2 {
     color: #FFD700;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 #character-name-input {
