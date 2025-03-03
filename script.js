@@ -173,6 +173,7 @@ function loadGameData() {
         playerRace = data.playerRace || "humano";
         playerClass = data.playerClass || "Guerrero";
         playerStats = data.playerStats || { strength: 0, agility: 0, stamina: 0, intellect: 0, spirit: 0 };
+        playerHealth = data.playerHealth !== undefined ? data.playerHealth : 100; // Cargar la vida del jugador, incluso si es 0
 
         updateMoneyDisplay();
         updateExperienceDisplay();
@@ -190,6 +191,9 @@ function loadGameData() {
         document.getElementById('info-intellect').textContent = playerStats.intellect;
         document.getElementById('info-spirit').textContent = playerStats.spirit;
 
+        // Actualizar la barra de vida del jugador
+        updateHealthBars();
+
         container.style.display = 'flex';
         startScreen.style.display = 'none';
     }
@@ -206,7 +210,8 @@ function saveGameData() {
         quests,
         playerRace,
         playerClass,
-        playerStats // Guardar los stats del personaje
+        playerStats,
+        playerHealth,
     };
     localStorage.setItem('gameData', JSON.stringify(gameData));
 }
@@ -313,6 +318,11 @@ function levelUp() {
         playerLevel += 1;
         playerExperience -= experienceToNextLevel; // Restar la experiencia usada para subir de nivel
         experienceToNextLevel = Math.round(experienceToNextLevel * 1.20); // Incrementar la experiencia necesaria en un 20%
+        
+        // Restaurar la vida del jugador al máximo cuando sube de nivel
+        playerHealth = 100; // <-- Restaurar la vida al máximo
+        updateHealthBars(); // Actualizar la barra de vida del jugador
+        
         infoLevel.textContent = playerLevel; // Actualizar el nivel en la ventana de información
         updateExperienceDisplay();
         saveGameData(); // Guardar datos después de subir de nivel
@@ -432,32 +442,45 @@ function startCombat(enemy) {
 
     currentEnemy = enemy;
     enemyHealth = enemy.maxHealth; // Restablecer la vida del enemigo al máximo
-    // playerHealth = 100; // <-- Eliminar esta línea para evitar que la vida del jugador se regenere
 
     // Mostrar la imagen y salud del enemigo
     enemyCombatImage.src = enemy.icon;
-    updateHealthBars();
+
+    // Actualizar la barra de salud del enemigo al iniciar el combate
+    const enemyHealthPercentage = (enemyHealth / currentEnemy.maxHealth) * 100;
+    const enemyCombatHealthBar = document.getElementById('enemy-combat-health-bar');
+    enemyCombatHealthBar.style.width = `${enemyHealthPercentage}%`;
+    document.getElementById('enemy-health-text').textContent = `${enemyHealth} / ${currentEnemy.maxHealth}`;
 
     // Mostrar la pantalla de combate
     combatOverlay.style.display = 'flex';
+
+    // Actualizar la barra de salud del jugador
+    updateHealthBars();
 }
 
 // Función para actualizar las barras de salud
 function updateHealthBars() {
-    const enemyHealthPercentage = (enemyHealth / currentEnemy.maxHealth) * 100;
     const playerHealthPercentage = (playerHealth / 100) * 100;
-
-    enemyCombatHealthBar.style.width = `${enemyHealthPercentage}%`;
-    playerCombatHealthBar.style.width = `${playerHealthPercentage}%`;
-
-    // Actualizar el texto de la vida del enemigo y del jugador
-    document.getElementById('enemy-health-text').textContent = `${enemyHealth} / ${currentEnemy.maxHealth}`;
-    document.getElementById('player-health-text').textContent = `${playerHealth} / 100`;
-
-    // Actualizar la barra de vida del personaje en la interfaz de usuario
+    // Actualizar la barra de progreso
     const healthProgress = document.getElementById('health-progress');
     healthProgress.style.width = `${playerHealthPercentage}%`;
-    document.getElementById('health-text').textContent = `${playerHealth} / 100`;
+
+    // Actualizar el texto de la vida
+    const healthText = document.getElementById('health-text');
+    healthText.textContent = `${playerHealth} / 100`;
+
+    // Si estás en combate, también actualiza la barra de vida
+    if (combatOverlay.style.display === 'flex') {
+        const playerCombatHealthBar = document.getElementById('player-combat-health-bar');
+        playerCombatHealthBar.style.width = `${playerHealthPercentage}%`;
+        document.getElementById('player-health-text').textContent = `${playerHealth} / 100`;
+        
+        const enemyHealthPercentage = (enemyHealth / currentEnemy.maxHealth) * 100;
+        const enemyCombatHealthBar = document.getElementById('enemy-combat-health-bar');
+        enemyCombatHealthBar.style.width = `${enemyHealthPercentage}%`;
+        document.getElementById('enemy-health-text').textContent = `${enemyHealth} / ${currentEnemy.maxHealth}`;
+    }
 }
 
 // Función para calcular el daño basado en las estadísticas de la clase
@@ -529,8 +552,12 @@ attackBtn.addEventListener('click', () => {
             // Guardar los datos del juego
             saveGameData();
         } else if (playerHealth <= 0) {
+            
             alert(`¡Has sido derrotado por ${currentEnemy.name}!`);
             combatOverlay.style.display = 'none';
+            
+            // Guardar el estado del juego cuando el jugador queda con 0 de vida
+            saveGameData();
         }
     }
 });
@@ -618,23 +645,34 @@ function renderQuests() {
 
 // Iniciar el juego
 document.addEventListener("DOMContentLoaded", () => {
-    // Mostrar la pantalla de inicio siempre
-    startScreen.style.display = 'flex';
-    container.style.display = 'none';
-
     // Cargar datos guardados al iniciar la página
     loadGameData();
 
-    // Si hay datos guardados, llenar las clases según la raza seleccionada
-    if (playerRace) {
-        const availableClasses = raceClassMapping[playerRace];
-        classSelect.innerHTML = '';
-        availableClasses.forEach(cls => {
-            const option = document.createElement('option');
-            option.value = cls;
-            option.textContent = cls;
-            classSelect.appendChild(option);
-        });
-        classSelect.value = playerClass; // Seleccionar la clase guardada
+    // Verificar si hay datos guardados
+    const savedData = localStorage.getItem('gameData');
+    if (!savedData) {
+        // Si no hay datos guardados, mostrar la pantalla de inicio
+        startScreen.style.display = 'flex';
+        container.style.display = 'none';
+    } else {
+        // Si hay datos guardados, ocultar la pantalla de inicio y mostrar el contenido del juego
+        startScreen.style.display = 'none';
+        container.style.display = 'flex';
+
+        // Llenar las clases según la raza seleccionada
+        if (playerRace) {
+            const availableClasses = raceClassMapping[playerRace];
+            classSelect.innerHTML = '';
+            availableClasses.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls;
+                option.textContent = cls;
+                classSelect.appendChild(option);
+            });
+            classSelect.value = playerClass; // Seleccionar la clase guardada
+        }
+
+        // Actualizar la barra de vida del jugador
+        updateHealthBars(); // <-- Llamar a updateHealthBars() aquí
     }
 });
