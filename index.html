@@ -55,31 +55,137 @@
 
 <!-- Botón de información del personaje, barra de experiencia y botón de reinicio -->
 <div id="player-info-display">
-    <button id="info-btn">Información del Personaje</button>
+    <div class="player-info-buttons">
+        <button id="info-btn">ℹ️ Información</button>
+        <button id="inventory-btn" style="display: block;">🎒 Inventario</button>
+        <button id="reset-btn">🔄 Reiniciar</button>
+    </div>
     <div id="health-bar">
         <div id="health-progress"></div>
         <span id="health-text">100 / 100</span>
     </div>
     <div id="experience-bar">
         <div id="experience-progress"></div>
-        <span id="experience-text">0 / 100</span>
+        <span id="experience-text">0 / 400</span>
     </div>
-    <button id="reset-btn">Reiniciar Juego</button>
 </div>
+
+<!-- Overlay del inventario -->
+<div id="inventory-overlay" class="overlay">
+    <div id="inventory-container" class="overlay-container">
+        <h2>Inventario</h2>
+        <div id="inventory-grid" class="inventory-grid"></div>
+        <button id="close-inventory-btn" class="shop-btn">Cerrar Inventario</button>
+    </div>
+</div>
+
+<!-- Overlay de detalles de misión -->
+<div id="quest-detail-overlay" class="overlay">
+    <div id="quest-detail-container" class="overlay-container">
+        <h2 id="quest-detail-title">Título de la Misión</h2>
+        <div class="quest-detail-header">
+            <div class="quest-detail-level">Nivel: <span id="quest-detail-level">1</span></div>
+            <div class="quest-detail-giver">Ofrecida por: <span id="quest-detail-giver">NPC</span></div>
+            <div class="quest-detail-location">Ubicación: <span id="quest-detail-location">Lugar</span></div>
+        </div>
+        <div class="quest-detail-progress">
+            <div class="quest-detail-objective">
+                <img id="quest-detail-icon" src="" alt="Objetivo" class="enemy-icon">
+                <span id="quest-detail-objective">Progreso: 0/10</span>
+            </div>
+            <div class="quest-progress-bar-container">
+                <div id="quest-detail-progress-bar" class="quest-progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+        <div class="quest-detail-description" id="quest-detail-description">
+            Descripción de la misión aquí...
+        </div>
+        <div class="quest-detail-rewards">
+            <h3>Recompensas:</h3>
+            <div class="quest-reward-item">
+                <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" class="coin-icon bronze-coin">
+                <span id="quest-detail-bronze">55</span> monedas de cobre
+            </div>
+            <div class="quest-reward-item">
+                <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_pearl_03.jpg" class="exp-icon">
+                <span id="quest-detail-exp">10</span> experiencia
+            </div>
+        </div>
+        <div class="quest-detail-buttons">
+            <button id="quest-detail-claim-btn" class="shop-btn" style="display: none;">Reclamar Recompensa</button>
+            <button id="close-quest-detail-btn" class="shop-btn">Cerrar</button>
+        </div>
+    </div>
+</div>
+
     <!-- Ventana de información del personaje -->
 <div id="info-window">
     <h2>Información del Personaje</h2>
-    <div class="info-content">
-        <p><strong>Nombre:</strong> <span id="info-name"></span></p>
-        <p><strong>Raza:</strong> <span id="info-race"></span></p>
-        <p><strong>Clase:</strong> <span id="info-class"></span></p>
-        <p><strong>Nivel:</strong> <span id="info-level"></span></p>
-        <p><strong>Fuerza:</strong> <span id="info-strength"></span></p>
-        <p><strong>Agilidad:</strong> <span id="info-agility"></span></p>
-        <p><strong>Aguante:</strong> <span id="info-stamina"></span></p>
-        <p><strong>Intelecto:</strong> <span id="info-intellect"></span></p>
-        <p><strong>Espíritu:</strong> <span id="info-spirit"></span></p>
+    
+    <div class="info-tabs">
+        <button class="info-tab-btn active" data-tab="stats">Estadísticas</button>
+        <button class="info-tab-btn" data-tab="reputation">Reputación</button>
     </div>
+    
+    <div id="stats-tab" class="info-tab-content active">
+        <div class="character-header">
+            <div class="character-portrait">
+                <img id="character-portrait" src="https://wow.zamimg.com/images/wow/icons/large/achievement_character_human_male.jpg" alt="Retrato">
+            </div>
+            <div class="character-info">
+                <h3 id="info-name">Nombre</h3>
+                <p><span id="info-race">Raza</span> - <span id="info-class">Clase</span></p>
+                <p>Nivel <span id="info-level">1</span></p>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-icon"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg" alt="Fuerza"></div>
+                <div class="stat-info">
+                    <span class="stat-name">Fuerza</span>
+                    <span class="stat-value" id="info-strength">0</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg" alt="Agilidad"></div>
+                <div class="stat-info">
+                    <span class="stat-name">Agilidad</span>
+                    <span class="stat-value" id="info-agility">0</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_jewelry_talisman_01.jpg" alt="Aguante"></div>
+                <div class="stat-info">
+                    <span class="stat-name">Aguante</span>
+                    <span class="stat-value" id="info-stamina">0</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_pearl_03.jpg" alt="Intelecto"></div>
+                <div class="stat-info">
+                    <span class="stat-name">Intelecto</span>
+                    <span class="stat-value" id="info-intellect">0</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divinespirit.jpg" alt="Espíritu"></div>
+                <div class="stat-info">
+                    <span class="stat-name">Espíritu</span>
+                    <span class="stat-value" id="info-spirit">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="reputation-tab" class="info-tab-content">
+        <h3>Reputación con Facciones</h3>
+        <div id="reputation-container">
+            <!-- Las facciones y reputaciones se generarán dinámicamente aquí -->
+        </div>
+    </div>
+    
+    <button id="close-info-btn" class="shop-btn">Cerrar</button>
 </div>
 
     <!-- Barra de dinero -->
@@ -96,8 +202,44 @@
             <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" class="coin-icon bronze-coin">
             <span id="bronze">0</span>
         </div>
-        <!-- Botón para mostrar el mapa -->
+        <!-- Botones de mapa y tienda -->
         <button id="map-btn">Mostrar Mapa</button>
+        <button id="shop-btn">Abrir Tienda</button>
+    </div>
+
+    <!-- Ventana de la tienda -->
+    <div id="shop-overlay">
+        <div id="shop-container">
+            <h2>Tienda</h2>
+            <div class="shop-items">
+                <div class="shop-item">
+                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg" alt="Poción de Curación Menor">
+                    <div class="item-info">
+                        <h3>Poción de Curación Menor</h3>
+                        <p>Restaura 20 puntos de vida</p>
+                        <div class="item-price">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" class="coin-icon bronze-coin">
+                            <span>15</span>
+                        </div>
+                        <button id="buy-potion-btn">Comprar</button>
+                    </div>
+                </div>
+                
+                <div class="shop-item">
+                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gear_08.jpg" alt="Planos tecnológicos de Gnomeregan">
+                    <div class="item-info">
+                        <h3>Planos Tecnológicos</h3>
+                        <p>Gana 250 puntos de reputación con Gnomeregan</p>
+                        <div class="item-price">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" class="coin-icon bronze-coin">
+                            <span>45</span>
+                        </div>
+                        <button id="buy-gnome-rep-btn">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <button id="close-shop-btn">Cerrar Tienda</button>
+        </div>
     </div>
 
     <!-- Contenedor del mapa a pantalla completa -->
@@ -128,6 +270,7 @@
         </div>
         <div id="combat-actions">
             <button id="attack-btn">Atacar</button>
+            <button id="use-potion-btn">Usar Poción (0)</button>
             <button id="flee-btn">Huir</button>
         </div>
         <!-- Nuevo elemento para mostrar las recompensas -->
@@ -154,16 +297,45 @@
             <!-- Panel izquierdo para los enemigos -->
             <div id="left-panel">
                 <div id="enemies">
-                    <h2>Enemigos de la zona</h2>
-                    <ul id="enemy-list"></ul>
+                    <h2>🗡️ Enemigos de la zona</h2>
+                    <ul id="enemy-list">
+                        <!-- Los enemigos se generarán dinámicamente aquí con esta estructura:
+                        <li>
+                            <img class="enemy-icon" src="URL_DEL_ICONO" alt="Nombre del enemigo">
+                            <div class="enemy-info">
+                                <div class="enemy-name">Nombre del enemigo <span class="enemy-level">Nivel X</span></div>
+                                <div class="health-bar">
+                                    <div class="health-progress" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </li>
+                        -->
+                    </ul>
                 </div>
             </div>
 
             <!-- Panel derecho para las misiones -->
             <div id="right-panel">
                 <div id="quests">
-                    <h2>Misiones</h2>
-                    <ul id="quest-list"></ul>
+                    <h2>📜 Misiones disponibles</h2>
+                    <ul id="quest-list">
+                        <!-- Las misiones se generarán dinámicamente aquí con esta estructura:
+                        <li>
+                            <div class="quest-title">Título de la misión</div>
+                            <div class="quest-objective">
+                                <img src="URL_DEL_OBJETIVO" alt="Objetivo">
+                                <span>0/10 Lobos eliminados</span>
+                            </div>
+                            <div class="quest-progress">
+                                <div class="quest-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <div class="quest-reward">
+                                <img src="URL_MONEDA" alt="Monedas">
+                                <span>Recompensa: 50 cobre</span>
+                            </div>
+                        </li>
+                        -->
+                    </ul>
                 </div>
             </div>
         </div>
