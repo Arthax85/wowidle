@@ -79,11 +79,12 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    width: 160px;
-    min-width: 160px;
-    height: 200px;
+    width: 180px;
+    min-width: 180px;
+    height: 220px;
     flex: 0 0 auto;
     margin: 0;
+    position: relative;
 }
 
 .shop-item:hover {
@@ -112,8 +113,15 @@
 .item-info h3 {
     margin: 0 0 5px 0;
     color: #FFD700;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2;
+    height: 2.4em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .item-info p {

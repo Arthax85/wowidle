@@ -27,7 +27,7 @@ let playerStats = {
 
 // Variables globales para el inventario
 let inventory = {
-    healthPotions: 0,
+    healthPotions: 2,
     resurrectionStones: 0
 };
 
@@ -588,7 +588,7 @@ shopBtn.addEventListener('click', () => {
                         <img src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg" alt="Poción de Curación">
                         <div class="item-info">
                             <h3>Poción de Curación</h3>
-                            <p>Restaura 20 puntos de vida</p>
+                            <p>Restaura 40 puntos de vida</p>
                             <div class="item-price">
                                 <span>${potionPrice} monedas de cobre</span>
                             </div>
@@ -630,7 +630,7 @@ shopBtn.addEventListener('click', () => {
                     <div class="shop-item">
                         <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_01.jpg" alt="Documentos de Ventormenta">
                         <div class="item-info">
-                            <h3>Documentos de Ventormenta</h3>
+                            <h3>Libro de Ventormenta</h3>
                             <p>Gana 250 puntos de reputación con Ventormenta</p>
                             <div class="item-price">
                                 <span>${stormwindRepPrice} monedas de cobre</span>
@@ -1478,7 +1478,7 @@ function openInventory() {
 function useHealthPotion() {
     if (inventory.healthPotions > 0 && playerHealth < playerMaxHealth) {
         inventory.healthPotions -= 1;
-        playerHealth = Math.min(playerHealth + 20, playerMaxHealth);
+        playerHealth = Math.min(playerHealth + 40, playerMaxHealth);
         updateHealthBars();
         saveGameData();
         showNotification(`Has usado una poción. Vida actual: ${playerHealth}/${playerMaxHealth}`);
@@ -2027,7 +2027,7 @@ function loadGameData() {
         playerStats = data.playerStats || { strength: 0, agility: 0, stamina: 0, intellect: 0, spirit: 0 };
         playerHealth = data.playerHealth !== undefined ? data.playerHealth : 100;
         playerMaxHealth = data.playerMaxHealth !== undefined ? data.playerMaxHealth : calculateMaxHealth();
-        inventory = data.inventory || { healthPotions: 0, resurrectionStones: 0 };
+        inventory = data.inventory || { healthPotions: 2, resurrectionStones: 0 };
         
         // Cargar la reputación existente y añadir Gnomeregan si no existe
         playerReputation = data.playerReputation || [
