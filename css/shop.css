@@ -1,0 +1,232 @@
+/* Estilos para la tienda */
+#shop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#shop-container {
+    background: linear-gradient(135deg, #1F1F23, #2F2F33);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    min-height: 300px;
+    max-height: 400px;
+    color: #FFFFFF;
+    position: relative;
+}
+
+.shop-menu {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.shop-menu h3 {
+    color: #FFD700;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    position: relative;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.shop-menu h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
+}
+
+.shop-items {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+    overflow-x: auto;
+    margin: 0;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    height: calc(100% - 60px);
+}
+
+.shop-item {
+    background: linear-gradient(135deg, #2E2E32, #3E3E42);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+    min-width: 160px;
+    height: 200px;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.shop-item:hover {
+    transform: translateY(-3px);
+    border-color: #FFD700;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+}
+
+.shop-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #FFD700;
+    margin-bottom: 8px;
+}
+
+.item-info {
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item-info h3 {
+    margin: 0 0 5px 0;
+    color: #FFD700;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.item-info p {
+    margin: 0 0 8px 0;
+    color: #CCCCCC;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.item-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    gap: 4px;
+}
+
+.item-price img {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border: none;
+}
+
+.shop-item button {
+    width: 100%;
+    padding: 6px;
+    background: linear-gradient(135deg, #9146FF, #7B3FE0);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: auto;
+}
+
+.shop-item button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7B3FE0, #9146FF);
+    transform: translateY(-1px);
+}
+
+.shop-item button:disabled {
+    background: #444;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#close-shop-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #FF5555;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+#close-shop-btn:hover {
+    background: #FF0000;
+    transform: scale(1.1);
+}
+
+/* Scrollbar personalizado para la tienda */
+.shop-items::-webkit-scrollbar {
+    height: 8px;
+}
+
+.shop-items::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.shop-items::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 4px;
+}
+
+.shop-items::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+/* Estilos responsivos para la tienda */
+@media screen and (max-width: 640px) {
+    #shop-container {
+        width: 95%;
+        padding: 15px;
+        min-height: 280px;
+        max-height: 350px;
+    }
+
+    .shop-item {
+        width: 140px;
+        min-width: 140px;
+        height: 180px;
+        padding: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .shop-item {
+        width: 130px;
+        min-width: 130px;
+        height: 170px;
+        padding: 10px;
+    }
+} 

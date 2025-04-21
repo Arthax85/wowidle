@@ -1532,104 +1532,127 @@ body {
 }
 
 #shop-container {
-    background-color: #1F1F23;
+    background: linear-gradient(135deg, #1F1F23, #2F2F33);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
-    width: 400px;
+    border-radius: 15px;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
     color: #FFFFFF;
 }
 
 /* Estilos para las categorías de la tienda */
 .shop-menu h3 {
     color: #FFD700;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    margin-bottom: 20px;
     text-align: center;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .shop-items {
-    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .shop-item {
-    display: flex;
-    background: #2E2E32;
+    background: linear-gradient(135deg, #2E2E32, #3E3E42);
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    width: 220px;
+    transition: all 0.3s ease;
 }
 
 .shop-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(145, 70, 255, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
 }
 
 .shop-item img {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
-    margin-right: 15px;
+    border: 2px solid #FFD700;
+    margin-bottom: 10px;
 }
 
 .item-info {
-    flex-grow: 1;
+    text-align: center;
 }
 
 .item-info h3 {
     margin: 0 0 5px 0;
     color: #FFD700;
+    font-size: 16px;
 }
 
 .item-info p {
     margin: 0 0 10px 0;
     color: #CCCCCC;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .item-price {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 10px;
+    gap: 5px;
 }
 
 .item-price img {
     width: 16px;
     height: 16px;
-    margin-right: 5px;
+    margin: 0;
+    border: none;
 }
 
-#buy-potion-btn {
-    background: #4CAF50;
+.shop-item button {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, #9146FF, #7B3FE0);
     color: white;
     border: none;
-    padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
-#buy-potion-btn:hover {
-    background: #45a049;
+.shop-item button:hover {
+    background: linear-gradient(135deg, #7B3FE0, #9146FF);
+    transform: translateY(-2px);
+}
+
+.shop-item button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
 }
 
 #close-shop-btn {
-    width: 100%;
+    display: block;
+    width: 200px;
+    margin: 20px auto 0;
     padding: 10px;
     background: #FF5555;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
 #close-shop-btn:hover {
     background: #FF0000;
+    transform: translateY(-2px);
 }
 
 /* Estilos para la ventana de combate */

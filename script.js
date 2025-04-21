@@ -71,7 +71,7 @@ const factions = [
         id: 4, 
         name: "Gnomeregan", 
         description: "Antiguo hogar de los gnomos, ahora en reconstrucción tras la invasión de troggs. Liderada por el Alto Manitas Mekkatorque.",
-        icon: "https://wow.zamimg.com/images/wow/icons/large/achievement_reputation_gnomeragan.jpg"
+        icon: "https://wow.zamimg.com/images/wow/icons/large/achievement_reputation_03.jpg"
     }
 ];
 
@@ -593,7 +593,7 @@ shopBtn.addEventListener('click', () => {
                                 <span>${potionPrice} monedas de cobre</span>
                             </div>
                             <button id="buy-health-potion" class="shop-btn">
-                                Comprar (${inventory.healthPotions} disponibles)
+                                Comprar (Tienes ${inventory.healthPotions})
                             </button>
                         </div>
                     </div>
@@ -606,7 +606,7 @@ shopBtn.addEventListener('click', () => {
                                 <span>${stonePrice} monedas de cobre</span>
                             </div>
                             <button id="buy-res-stone" class="shop-btn">
-                                Comprar (${inventory.resurrectionStones} disponibles)
+                                Comprar (Tienes ${inventory.resurrectionStones})
                             </button>
                         </div>
                     </div>
