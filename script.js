@@ -1161,7 +1161,11 @@ function renderEnemies() {
 
 // Función para actualizar el texto del botón de pociones
 function updatePotionButton() {
-    usePotionBtn.textContent = `Usar Poción (${inventory.healthPotions})`;
+    const usePotionBtn = document.getElementById('use-potion-btn');
+    if (usePotionBtn) {
+        usePotionBtn.textContent = `Usar Poción (${inventory.healthPotions})`;
+        usePotionBtn.disabled = inventory.healthPotions <= 0;
+    }
 }
 
 // Evento para usar poción en combate
@@ -1483,10 +1487,8 @@ function useHealthPotion() {
         saveGameData();
         showNotification(`Has usado una poción. Vida actual: ${playerHealth}/${playerMaxHealth}`);
         
-        // Actualizar el botón de pociones en combate si está visible
-        if (combatOverlay.style.display === 'flex') {
-            updatePotionButton();
-        }
+        // Actualizar el botón de pociones en combate
+        updatePotionButton();
     } else if (inventory.healthPotions <= 0) {
         showNotification("No tienes pociones de curación");
     } else {
